@@ -1,8 +1,13 @@
 const express = require('express');
 const { listenerCount } = require('stream');
+const bcrypt = require('bcrypt-nodejs');
+const cors = require('cors');
 
 const app = express();
+
+
 app.use(express.json());
+app.use(cors());
 
 const database = {
     users: [
@@ -22,20 +27,28 @@ const database = {
             entries: 0,
             joined: new Date()
         }
+    ],
+    login: [ 
+        {
+            id: '987',
+            hash: '',
+            email: 'john@gmail.com'
+        }
     ]
 }
 
 app.get('/', (req,res)=>{
-    res.send(database.users)
+    res.send(database.users);
 })
 
 app.post('/signin', (req,res) =>{
+
+
     if (req.body.email === database.users[0].email && req.body.password === database.users[0].password){
         res.json('success');
     } else {
         res.status(400).json('error logging in ')
     }
-
     res.json('signin working');
 })
 
@@ -81,9 +94,29 @@ app.put('/image', (req,res)=>{
     }
 })
 
+
+
+// bcrypt.hash("bacon", null, null, function(err, hash) {
+//     // Store hash in your password DB.
+// });
+
+// // Load hash from your password DB.
+// bcrypt.compare("bacon", hash, function(err, res) {
+//     // res == true
+// });
+// bcrypt.compare("veggies", hash, function(err, res) {
+//     // res = false
+// });
+
+
+
+
+
 app.listen(3004, ()=> {
     console.log('app is runing on port 3004');
 });
+
+
 
 /* STEPS TODO
 /sign in --> POST = success or fail
