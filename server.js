@@ -26,29 +26,6 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// ################### Predrfined Database ##################
-
-// const database = {
-//     users: [
-//         {
-//             id: '123',
-//             name: 'John',
-//             email: 'john@gmail.com',
-//             password: 'cookies',
-//             entries: 0,
-//             joined: new Date()
-//         },
-//         {
-//             id: '124',
-//             name: 'Sally',
-//             email: 'Sally@gmail.com',
-//             password: 'bananas',
-//             entries: 0,
-//             joined: new Date()
-//         }
-//     ]
-// }
-
 app.get('/', (req,res)=>{
     res.send(db.users);
 })
@@ -73,16 +50,6 @@ app.post('/signin', (req,res) =>{
         })
         .catch(err => res.status(400).json('wrong credentials'))
 })
-
-// if (req.body.email === database.users[0].email && 
-//     req.body.password === database.users[0].password){
-//     // Return the user 0 from database: 
-//     res.json(database.users[0]);
-// } else {
-//     res.status(400).json('error logging in '),
-//     console.log('something went wrong')
-// }
-// //res.json('signin working');
 
 // ################## REGISTER ###################
 app.post('/register', (req, res)=>{
