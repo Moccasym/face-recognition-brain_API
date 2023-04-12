@@ -1,16 +1,33 @@
-const Clarifai = require('clarifai');
+// Easiest way to check all the model ids ;)
+// const Clarifai = require('clarifai');
+// console.log(Clarifai)
 
-const app = new Clarifai.App({
-    apiKey: 'b4f74c7cfa714ef1bc048820c65660ee'
-   });
-  
+const {ClarifaiStub, grpc} = require("clarifai-nodejs-grpc");
+const stub = ClarifaiStub.grpc();
+const metadata = new grpc.Metadata();
+metadata.set("authorization", "Key b4f74c7cfa714ef1bc048820c65660ee")
+
 const handleClarifai = (req,res) => {
-    app.models
-    .predict('face-detection', req.body.input)
-    .then(data => {
-        res.json(data);
-    })
-    .catch(err => res.status(400).json('inable to work with Api'));
+    stub.PostModelOutputs(
+        {
+            // This is the model ID of a publicly available General model. You may use any other public or custom model ID.
+            model_id: 'face-detection',
+            inputs: [{data: {image: {url: req.body.input}}}]
+        },
+        metadata,
+        (err, response) => {
+            if (err) {
+                console.log("Error: " + err);
+                return;
+            }
+
+            if (response.status.code !== 10000) {
+                console.log("Received failed status: " + response.status.description + "\n" + response.status.details);
+                return;
+            }
+            res.json(response);
+        }
+    );
 }
 
 const handleImage = (req, res, db) => {
