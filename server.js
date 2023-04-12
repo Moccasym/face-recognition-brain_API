@@ -44,10 +44,19 @@ app.put('/image', (req,res) => { image.handleImage(req, res, db) });
 app.post('/imageurl', (req, res) => { image.handleClarifai (req, res) });
 
 // #################### NODEMON RESPONSE #####################
-app.listen(3000, ()=> {
-    console.log('app is runing on port 3000');
-});
 
+app.listen(3000, ()=> {
+        console.log(`app is runing on port 3000`);
+    });
+
+//Making Port dynamics
+// const PORT = process.env.PORT
+
+// app.listen(PORT, ()=> {
+//     console.log(`app is runing on port ${process.env.PORT}`);
+// });
+
+// console.log(PORT)
 
 
 
