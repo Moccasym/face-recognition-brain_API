@@ -30,7 +30,7 @@ const db = knex({
   app.use(cors());
   
   app.get('/', (req,res)=>{
-      res.send(db.users);
+      res.send('it is working');
   })
 
 // ################## SIGN IN ###################
@@ -58,7 +58,7 @@ app.post('/imageurl', (req, res) => { image.handleClarifai (req, res) });
 //Making Port dynamics
 const PORT = process.env.PORT
 
-app.listen(PORT, ()=> {
+app.listen(PORT || 3000, ()=> {
     console.log(`app is runing on port ${process.env.PORT}`);
 });
 
