@@ -2,7 +2,9 @@ const express = require('express');
 const { listenerCount } = require('stream');
 const bcrypt = require('bcrypt-nodejs');
 const cors = require('cors');
+// Knex for connecting the server and the database
 const knex = require('knex');
+const local_env = require('dotenv').config({ path: __dirname + '/.env.local' });
 
 const register = require('./controllers/register');
 const signin = require('./controllers/signin');
@@ -13,11 +15,13 @@ const image = require('./controllers/image');
 const db = knex({
     client: 'pg',
     connection: {
-      host : '127.0.0.1',
+      connectionString : process.env.DATABASE_URL,
+      ssl: { rejectUnauthorized: false },
+      host : process.envDATABASE_HOST,
       port : 5432,
-      user : 'Felix',
-      password : '',
-      database : 'smart-brain'
+      user : process.envDATABASE_USER,
+      password : process.envDATABASE_PW,
+      database : process.envDATABASE_DB
     }
   });
 
@@ -45,18 +49,20 @@ app.post('/imageurl', (req, res) => { image.handleClarifai (req, res) });
 
 // #################### NODEMON RESPONSE #####################
 
-app.listen(3000, ()=> {
-        console.log(`app is runing on port 3000`);
-    });
+//app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+
+// app.listen(3000, ()=> {
+//         console.log(`app is runing on port 3000`);
+//     });
 
 //Making Port dynamics
-// const PORT = process.env.PORT
+const PORT = process.env.PORT
 
-// app.listen(PORT, ()=> {
-//     console.log(`app is runing on port ${process.env.PORT}`);
-// });
+app.listen(PORT, ()=> {
+    console.log(`app is runing on port ${process.env.PORT}`);
+});
 
-// console.log(PORT)
+console.log(PORT)
 
 
 
