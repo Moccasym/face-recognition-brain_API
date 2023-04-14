@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt-nodejs');
 const cors = require('cors');
 // Knex for connecting the server and the database
 const knex = require('knex');
-const local_env = require('dotenv').config({ path: __dirname + '/.env.local' });
+//const local_env = require('dotenv').config({ path: __dirname + '/.env.local' });
 
 const register = require('./controllers/register');
 const signin = require('./controllers/signin');
@@ -29,6 +29,7 @@ const db = knex({
   app.use(express.json());
   app.use(cors());
   
+  // ################## Root ################## 
   app.get('/', (req,res)=>{
       res.send('it is working');
   })
@@ -45,21 +46,14 @@ app.get('/profile/:id', (req,res) => { profile.handleProfile(req, res, db) });
 // ################## IMAGE INPUT ###################
 app.put('/image', (req,res) => { image.handleImage(req, res, db) });
 
+// ################## HANDLE IMAGE/FACE RECOGNITION ###################
 app.post('/imageurl', (req, res) => { image.handleClarifai (req, res) });
 
-// #################### NODEMON RESPONSE #####################
-
-//app.listen(port, () => console.log(`Example app listening on port ${port}!`));
-
-// app.listen(3000, ()=> {
-//         console.log(`app is runing on port 3000`);
-//     });
-
-//Making Port dynamics
+// #################### RESPONSE WHICH PORT #####################
 const PORT = process.env.PORT
 
 app.listen(PORT || 3000, ()=> {
-    console.log(`app is runing on port ${process.env.PORT}`);
+    console.log(`app is runing on port ${PORT}`);
 });
 
 console.log(PORT)
