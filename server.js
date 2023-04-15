@@ -4,8 +4,8 @@ const bcrypt = require('bcrypt-nodejs');
 const cors = require('cors');
 // Knex for connecting the server and the database
 const knex = require('knex');
-//const local_env = require('dotenv').config({ path: __dirname + '/.env.local' });
 
+// ################## Controllers ###################
 const register = require('./controllers/register');
 const signin = require('./controllers/signin');
 const profile = require('./controllers/profile');
@@ -16,7 +16,6 @@ const db = knex({
     client: 'pg',
     connection: {
       connectionString : process.env.DATABASE_URL,
-      ssl: { rejectUnauthorized: false },
       host : process.env.DATABASE_HOST,
       port : 5432,
       user : process.env.DATABASE_USER,
