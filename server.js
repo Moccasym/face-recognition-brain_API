@@ -17,11 +17,11 @@ const db = knex({
     connection: {
       connectionString : process.env.DATABASE_URL,
       ssl: { rejectUnauthorized: false },
-      host : process.envDATABASE_HOST,
+      host : process.env.DATABASE_HOST,
       port : 5432,
-      user : process.envDATABASE_USER,
-      password : process.envDATABASE_PW,
-      database : process.envDATABASE_DB
+      user : process.env.DATABASE_USER,
+      password : process.env.DATABASE_PW,
+      database : process.env.DATABASE_DB
     }
   });
 
